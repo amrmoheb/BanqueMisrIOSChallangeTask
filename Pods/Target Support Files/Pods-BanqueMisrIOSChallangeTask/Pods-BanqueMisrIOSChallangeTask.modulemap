@@ -1,0 +1,6 @@
+module Pods_BanqueMisrIOSChallangeTask {
+  umbrella header "Pods-BanqueMisrIOSChallangeTask-umbrella.h"
+
+  export *
+  module * { export * }
+}
