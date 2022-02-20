@@ -1,10 +1,13 @@
 # BanqueMisrIOSChallangeTask
 Archtecture:
 the app was developes in MVVM 
+
 libraries used:
 RxSwift
+
 Network layer :
 based on sessionUrl
+
 Unit Testing : 
 unit test made for network layer
 
