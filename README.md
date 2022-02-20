@@ -12,5 +12,5 @@ Unit Testing :
 unit test made for network layer
 
 TODO:
-- adding images of first model exterior photo using KingFisher lib (photo url not clead in the api documentation)
+- adding images of first model exterior photo using KingFisher lib (photo url not clear in the api documentation)
 - userStory FF-3
