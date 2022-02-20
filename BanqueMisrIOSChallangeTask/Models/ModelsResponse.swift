@@ -61,8 +61,6 @@ struct Attribute: Codable {
     let name, value: String
 }
 
-
-
 // MARK: - Properties
 struct Properties: Codable {
     let useInNew: String
@@ -90,10 +88,6 @@ struct Properties: Codable {
     }
 }
 
-
-
-
-
 // MARK: - Categories
 struct Categories: Codable {
     let primaryBodyType, vehicleType: [String]
@@ -111,14 +105,11 @@ struct Categories: Codable {
     }
 }
 
-
-
 // MARK: - Make
 struct Make: Codable {
     let id: Int
     let href: String
 }
-
 
 // MARK: - ModelYear
 struct ModelYear: Codable {
@@ -128,5 +119,3 @@ struct ModelYear: Codable {
     let publicationStates: [String]
     let href: String
 }
-
-

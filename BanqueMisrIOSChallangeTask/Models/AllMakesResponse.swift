@@ -12,11 +12,11 @@ struct AllMakesResponse: Codable {
 }
 
 // MARK: - Result
-struct Result: Codable  {
-    
+struct Result: Codable {
+
     let id: Int
     let name, niceName, adTargetID, niceID: String
-    let useInUsed, useInNew, useInPreProduction, useInFuture: UseIn
+    let useInUsed, useInNew, useInPreProduction, useInFuture: String
     let attributeGroups: AttributeGroups
     let models: [Model]
 
@@ -37,7 +37,3 @@ struct Model: Codable {
     let id, name, niceName, href: String
 }
 
-enum UseIn: String, Codable {
-    case n = "N"
-    case y = "Y"
-}

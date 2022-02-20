@@ -6,20 +6,17 @@
 //
 
 import Foundation
-struct BanqueMisrError : Error
-{
-    var message : String?
-    var type : ErrorType?
-    var code : Int?
+struct BanqueMisrError: Error {
+    var message: String?
+    var type: ErrorType?
+    var code: Int?
 }
-enum ErrorType : String
-{
+enum ErrorType: String {
     case serverError = "Server Error"
-    case ConnectionError = "Connection Error"
+    case connectionError = "Connection Error"
     case serializationError = "Serialization Error"
 }
-enum ErrorMessage : String
-{
+enum ErrorMessage: String {
     case unknownError = "Unkown Error Accured"
     case serilizationError = "Error during JSON serialization"
 }

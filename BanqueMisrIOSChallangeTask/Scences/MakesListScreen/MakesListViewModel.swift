@@ -8,52 +8,46 @@
 import Foundation
 import RxSwift
 import RxCocoa
-class MakesListViewModel
-{
+class MakesListViewModel {
 
     var makesList = BehaviorRelay<[Result]>(value: [])
     var currentPage = 0
     var loadingNextPage = false
-    var TotalNumberOfPages = 1
-    var networkLayer : NetworkLayer
+    var totalNumberOfPages = 1
+    var networkLayer: NetworkLayer
     var errorNotifier = PublishSubject<BanqueMisrError>()
 
-    init(){
+    init() {
         networkLayer = NetworkLayer()
     }
-    func fetchMoreData(){
-        if !loadingNextPage && TotalNumberOfPages > currentPage
-        {
+    func fetchMoreData() {
+        if !loadingNextPage && totalNumberOfPages > currentPage {
         loadAllMakesNames(pageNumber: currentPage)
         }
     }
 
-    func loadAllMakesNames(pageNumber : Int = 1)
-    {
+    func loadAllMakesNames(pageNumber: Int = 1) {
         loadingNextPage = true
-       networkLayer.GetRequest(Model: AllMakesResponse.self, RequestConfiq: NetworkRouter.GetAllMakes(pageNumber))
-        {[weak self] response in
-            switch response
-            {
-            case .Success(let makesList):
+       networkLayer.getRequest(model: AllMakesResponse.self, requestConfiq: NetworkRouter.getAllMakes(pageNumber)) {[weak self] response in
+            switch response {
+            case .success(let makesList):
                 if let currentList = self?.makesList.value {
                    // var tempArray = currentList + makesList.results
                   //  tempArray.sort{$0.name < $1.name}
                     self?.makesList.accept(currentList + makesList.results)
-                    self?.TotalNumberOfPages =  makesList.totalPages
+                    self?.totalNumberOfPages =  makesList.totalPages
                     self?.currentPage += 1
-                    print("currentPage\( self?.currentPage)+\(self?.TotalNumberOfPages)")
+                    print("currentPage\( self?.currentPage)+\(self?.totalNumberOfPages)")
                     self?.loadingNextPage = false
                 }
-            
+
                 break
             case .failier(let error):
                 self?.errorNotifier.onNext(error)
                 break
-                
+
             }
-        
-      
+
         }
     }
 }

@@ -6,11 +6,9 @@
 //
 
 import Foundation
-struct ErrorResponseModel : Decodable
-{
-    let status : String?
-    let errorType : String?
-    let message : String?
-    let moreInfoUrl : String?
+struct ErrorResponseModel: Decodable {
+    let status: String?
+    let errorType: String?
+    let message: String?
+    let moreInfoUrl: String?
 }
-

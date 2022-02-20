@@ -17,11 +17,11 @@ class MakesListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         makesListViewModel.loadAllMakesNames()
-        
-        makesListViewModel.makesList.bind(to: makesListTableView.rx.items(cellIdentifier: "makeCellID", cellType: MakeTableViewCell.self)) { (row,item,cell) in
+
+        makesListViewModel.makesList.bind(to: makesListTableView.rx.items(cellIdentifier: "makeCellID", cellType: MakeTableViewCell.self)) { (_, item, cell) in
             cell.setMakeName(name: item.name)
                     }.disposed(by: bag)
-        
+
         makesListTableView.rx.didScroll.subscribe { [weak self] _ in
                     guard let self = self else { return }
                     let offSetY = self.makesListTableView.contentOffset.y
@@ -35,20 +35,23 @@ class MakesListViewController: UIViewController {
         makesListTableView.rx.itemSelected
             .subscribe(onNext: { [weak self] indexPath in
              // let cell = self?.tableview.cellForRow(at: indexPath) as? SomeCellClass
-                let nextViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ModelsListViewController") as! ModelsListViewController
-                nextViewController.makeName = self?.makesListViewModel.makesList.value[indexPath.row].niceName ?? ""
-                self?.navigationController?.pushViewController(nextViewController, animated: true)
+                let nextViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ModelsListViewController") as? ModelsListViewController
+                nextViewController?.makeName = self?.makesListViewModel.makesList.value[indexPath.row].niceName ?? ""
+                if let nextVC = nextViewController
+                {
+                self?.navigationController?.pushViewController(nextVC, animated: true)
+                }
             }).disposed(by: bag)
         makesListViewModel.errorNotifier
             .subscribe(onNext: {[weak self] error in
                 print(error.message)
                 self?.showAlert(error: error)
             })
-        
+
     }
-    func showAlert(error : BanqueMisrError){
+    func showAlert(error: BanqueMisrError) {
         DispatchQueue.main.async {
-            let alert = UIAlertController(title:error.type?.rawValue , message: error.message, preferredStyle: UIAlertController.Style.alert)
+            let alert = UIAlertController(title: error.type?.rawValue, message: error.message, preferredStyle: UIAlertController.Style.alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
         self.present(alert, animated: true, completion: nil)
         }

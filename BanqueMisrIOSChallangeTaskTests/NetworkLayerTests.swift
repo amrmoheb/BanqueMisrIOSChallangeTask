@@ -8,7 +8,7 @@
 import XCTest
 @testable import BanqueMisrIOSChallangeTask
 class NetworkLayerTests: XCTestCase {
-    var networkLayer : NetworkLayer!
+    var networkLayer: NetworkLayer!
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
         let config = URLSessionConfiguration.ephemeral
@@ -25,20 +25,18 @@ class NetworkLayerTests: XCTestCase {
     }
 
     func test_GetRequest_ReturnFailureWhenErrorReturnFromServer() throws {
-        
+
         // Arrange
         let exp = expectation(description: "wait unitil mock server response")
         let responseJsonStr = ResponsesSample.badRequest.rawValue
         MockURLProtocol.stubResponseData = responseJsonStr.data(using: .utf8)
         MockURLProtocol.httpUrlResponse = HTTPURLResponse(url: URL(string: "www.test.com")!, statusCode: 400, httpVersion: nil, headerFields: nil)
-        //Act
-        networkLayer.GetRequest(Model: AllMakesResponse.self, RequestConfiq: NetworkRouter.GetAllMakes(1))
-        {
+        // Act
+        networkLayer.getRequest(model: AllMakesResponse.self, RequestConfiq: NetworkRouter.GetAllMakes(1)) {
             response in
-            switch response
-            {
-            case .Success:
-              
+            switch response {
+            case .success:
+
                  break
             case .failier(let error):
                 // Assert
@@ -48,26 +46,23 @@ class NetworkLayerTests: XCTestCase {
                 break
             }
         }
-        
+
         wait(for: [exp], timeout: 5)
     }
 
-
     func test_GetRequest_ReturnFailureWhenUnknownErrorReturnFromServer() throws {
-        
+
         // Arrange
         let exp = expectation(description: "wait unitil mock server response")
         let responseJsonStr = ""
         MockURLProtocol.stubResponseData = responseJsonStr.data(using: .utf8)
         MockURLProtocol.httpUrlResponse = HTTPURLResponse(url: URL(string: "www.test.com")!, statusCode: 400, httpVersion: nil, headerFields: nil)
-        //Act
-        networkLayer.GetRequest(Model: AllMakesResponse.self, RequestConfiq: NetworkRouter.GetAllMakes(1))
-        {
+        // Act
+        networkLayer.getRequest(model: AllMakesResponse.self, RequestConfiq: NetworkRouter.GetAllMakes(1)) {
             response in
-            switch response
-            {
-            case .Success:
-              
+            switch response {
+            case .success:
+
                  break
             case .failier(let error):
                 // Assert
@@ -77,24 +72,22 @@ class NetworkLayerTests: XCTestCase {
                 break
             }
         }
-        
+
         wait(for: [exp], timeout: 5)
     }
     func test_GetRequest_ReturnFailureWhenConnectionErrorHappened() throws {
-        
+
         // Arrange
         let exp = expectation(description: "wait unitil mock server response")
-        let error = BanqueMisrError(message: "connection error", type: ErrorType.ConnectionError)
+        let error = BanqueMisrError(message: "connection error", type: ErrorType.connectionError)
         MockURLProtocol.error = error
-        
-        //Act
-        networkLayer.GetRequest(Model: AllMakesResponse.self, RequestConfiq: NetworkRouter.GetAllMakes(1))
-        {
+
+        // Act
+        networkLayer.getRequest(model: AllMakesResponse.self, RequestConfiq: NetworkRouter.GetAllMakes(1)) {
             response in
-            switch response
-            {
-            case .Success:
-              
+            switch response {
+            case .success:
+
                  break
             case .failier(let error):
                 // Assert
@@ -104,25 +97,22 @@ class NetworkLayerTests: XCTestCase {
                 break
             }
         }
-        
+
         wait(for: [exp], timeout: 5)
     }
     func test_GetRequest_ReturnFailureWhenCantSerilizeResponse() throws {
-        
+
         // Arrange
         let exp = expectation(description: "wait unitil mock server response")
         let responseJsonStr = ""
         MockURLProtocol.stubResponseData = responseJsonStr.data(using: .utf8)
         MockURLProtocol.httpUrlResponse = HTTPURLResponse(url: URL(string: "www.test.com")!, statusCode: 200, httpVersion: nil, headerFields: nil)
-        //Act
-        networkLayer.GetRequest(Model: AllMakesResponse.self, RequestConfiq: NetworkRouter.GetAllMakes(1))
-        {
+        // Act
+        networkLayer.getRequest(model: AllMakesResponse.self, RequestConfiq: NetworkRouter.GetAllMakes(1)) {
             response in
-            switch response
-            {
-            case .Success:
-                
-              
+            switch response {
+            case .success:
+
                  break
             case .failier(let error):
                 // Assert
@@ -132,33 +122,31 @@ class NetworkLayerTests: XCTestCase {
                 break
             }
         }
-        
+
         wait(for: [exp], timeout: 5)
     }
     func test_GetRequest_ReturnSuccessWhenServerReturnValidResponse() throws {
-        
+
         // Arrange
         let exp = expectation(description: "wait unitil mock server response")
-        let responseJsonStr = ResponsesSample.AllMakesResponse.rawValue
+        let responseJsonStr = ResponsesSample.allMakesResponse.rawValue
         MockURLProtocol.stubResponseData = responseJsonStr.data(using: .utf8)
         MockURLProtocol.httpUrlResponse = HTTPURLResponse(url: URL(string: "www.test.com")!, statusCode: 200, httpVersion: nil, headerFields: nil)
-        //Act
-        networkLayer.GetRequest(Model: AllMakesResponse.self, RequestConfiq: NetworkRouter.GetAllMakes(1))
-        {
+        // Act
+        networkLayer.getRequest(model: AllMakesResponse.self, RequestConfiq: NetworkRouter.GetAllMakes(1)) {
             response in
-            switch response
-            {
-            case .Success(let response):
+            switch response {
+            case .success(let response):
                 // Assert
                 XCTAssertNotNil(response)
                 exp.fulfill()
                  break
             case .failier:
-              
+
                 break
             }
         }
-        
+
         wait(for: [exp], timeout: 5)
     }
 }

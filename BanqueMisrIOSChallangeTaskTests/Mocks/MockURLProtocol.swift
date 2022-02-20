@@ -6,11 +6,10 @@
 //
 
 import Foundation
-class MockURLProtocol : URLProtocol
-{
-    static var stubResponseData : Data?
-    static var error : Error?
-    static var httpUrlResponse : HTTPURLResponse?
+class MockURLProtocol: URLProtocol {
+    static var stubResponseData: Data?
+    static var error: Error?
+    static var httpUrlResponse: HTTPURLResponse?
     override class func canInit(with request: URLRequest) -> Bool {
         return true
     }
@@ -18,23 +17,19 @@ class MockURLProtocol : URLProtocol
         return request
     }
     override func startLoading() {
-        if let response = MockURLProtocol.httpUrlResponse
-        {
+        if let response = MockURLProtocol.httpUrlResponse {
             client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
 
         }
 
-        if let requestError = MockURLProtocol.error
-        {
+        if let requestError = MockURLProtocol.error {
             self.client?.urlProtocol(self, didFailWithError: requestError)
-        }
-        else
-        {
+        } else {
             self.client?.urlProtocol(self, didLoad: MockURLProtocol.stubResponseData ?? Data())
         }
         client?.urlProtocolDidFinishLoading(self)
     }
     override func stopLoading() {
-        
+
     }
 }

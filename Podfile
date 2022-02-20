@@ -5,6 +5,8 @@ target 'BanqueMisrIOSChallangeTask' do
 
     pod 'RxSwift'
     pod 'RxCocoa'
+pod 'SwiftLint', '~> 0.27'
+
   target 'BanqueMisrIOSChallangeTaskTests' do
     inherit! :search_paths
     # Pods for testing

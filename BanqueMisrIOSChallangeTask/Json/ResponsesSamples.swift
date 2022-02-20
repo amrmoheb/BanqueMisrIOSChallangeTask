@@ -1,5 +1,4 @@
-enum ResponsesSample : String
-{
+enum ResponsesSample: String {
     case badRequest = """
     {
         "status": "BAD_REQUEST",
@@ -8,7 +7,7 @@ enum ResponsesSample : String
         "moreInfoUrl": "http://developer.edmunds.com"
     }
 """
-    case AllMakesResponse = """
+    case allMakesResponse = """
     {
         "totalNumber": 68,
         "totalPages": 68,
@@ -132,5 +131,5 @@ enum ResponsesSample : String
         ]
     }
     """
-    
+
 }

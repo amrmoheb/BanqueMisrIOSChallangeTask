@@ -6,8 +6,7 @@
 //
 
 import Foundation
-enum Response<T>
-{
-    case Success(T)
+enum Response<T> {
+    case success(T)
     case failier(BanqueMisrError)
 }

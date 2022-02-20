@@ -12,13 +12,13 @@ class ModelsListViewController: UIViewController {
     @IBOutlet weak var modelsTableView: UITableView!
     var modelsViewModel =  ModelsListViewModel()
     var bag = DisposeBag()
-    var makeName : String = ""
-    
+    var makeName: String = ""
+
     override func viewDidLoad() {
         super.viewDidLoad()
         modelsViewModel.loadAllModels(makeName: makeName)
-        
-        modelsViewModel.modelsList.bind(to: modelsTableView.rx.items(cellIdentifier: "modelCellID", cellType: ModelsTableViewCell.self)) { (row,item,cell) in
+
+        modelsViewModel.modelsList.bind(to: modelsTableView.rx.items(cellIdentifier: "modelCellID", cellType: ModelsTableViewCell.self)) { (_, item, cell) in
             cell.setModelName(name: item.name)
                     }.disposed(by: bag)
         modelsTableView.rx.didScroll.subscribe { [weak self] _ in
@@ -34,23 +34,21 @@ class ModelsListViewController: UIViewController {
       modelsViewModel.errorNotifier
           .subscribe(onNext: {[weak self] error in
               print(error.message)
-              self?.showAlert(error: error){[weak self] _ in
+              self?.showAlert(error: error) {[weak self] _ in
                   self?.back()
               }
           })
-        
-        
-        
+
     }
 
-    func showAlert(error : BanqueMisrError , action : @escaping (UIAlertAction)->Void){
+    func showAlert(error: BanqueMisrError, action : @escaping (UIAlertAction) -> Void) {
         DispatchQueue.main.async {
-            let alert = UIAlertController(title:error.type?.rawValue , message: error.message, preferredStyle: UIAlertController.Style.alert)
+            let alert = UIAlertController(title: error.type?.rawValue, message: error.message, preferredStyle: UIAlertController.Style.alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: action))
         self.present(alert, animated: true, completion: nil)
         }
     }
-    func back(){
+    func back() {
         _ = navigationController?.popToRootViewController(animated: true)
     }
 }

@@ -13,8 +13,7 @@ var makeName = PublishSubject<String>()
     @IBOutlet weak var makeNameLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
-  
-        
+
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -22,7 +21,7 @@ var makeName = PublishSubject<String>()
 
         // Configure the view for the selected state
     }
-    func setMakeName(name : String){
+    func setMakeName(name: String) {
         makeNameLabel.text = name
     }
 

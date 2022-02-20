@@ -20,7 +20,7 @@ class ModelsTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    func setModelName(name : String){
+    func setModelName(name: String) {
         modelName.text = name
     }
 }

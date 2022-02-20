@@ -8,33 +8,27 @@
 import Foundation
 import RxSwift
 import RxCocoa
-class ModelsListViewModel
-{
-    var networkLayer : NetworkLayer
+class ModelsListViewModel {
+    var networkLayer: NetworkLayer
     var modelsList = BehaviorRelay<[ModelsResult]>(value: [])
     var errorNotifier = PublishSubject<BanqueMisrError>()
     var currentPage = 0
     var loadingNextPage = false
-    var TotalNumberOfPages = 1
-    init(){
+    var totalNumberOfPages = 1
+    init() {
         networkLayer = NetworkLayer()
     }
-    func fetchMoreData(makeName : String){
-        if !loadingNextPage && TotalNumberOfPages > currentPage
-        {
+    func fetchMoreData(makeName: String) {
+        if !loadingNextPage && totalNumberOfPages > currentPage {
             loadAllModels(makeName: makeName, pageNumber: currentPage)
         }
     }
-    func loadAllModels(makeName : String , pageNumber : Int = 1)
-    {
+    func loadAllModels(makeName: String, pageNumber: Int = 1) {
         loadingNextPage = true
-        networkLayer.GetRequest(Model: ModelsResponse.self, RequestConfiq: NetworkRouter.GetMakeModels(makeName , 1))
-        {[weak self] response in
-            switch response
-            {
-            case .Success(let modelList):
-                if modelList.totalNumber == 0
-                {
+        networkLayer.getRequest(model: ModelsResponse.self, requestConfiq: NetworkRouter.getMakeModels(makeName, 1)) {[weak self] response in
+            switch response {
+            case .success(let modelList):
+                if modelList.totalNumber == 0 {
                 let error = BanqueMisrError(message: "No models for this brand ")
                     self?.errorNotifier.onNext(error)
                 }
@@ -42,21 +36,19 @@ class ModelsListViewModel
                    // var tempArray = currentList + makesList.results
                   //  tempArray.sort{$0.name < $1.name}
                     self?.modelsList.accept(currentList + modelList.results)
-                    self?.TotalNumberOfPages =  modelList.totalPages
+                    self?.totalNumberOfPages =  modelList.totalPages
                     self?.currentPage += 1
-                    print("currentPage\( self?.currentPage)+\(self?.TotalNumberOfPages)")
+                    print("currentPage\( self?.currentPage)+\(self?.totalNumberOfPages)")
                     self?.loadingNextPage = false
                 }
-            
-            
+
                 break
             case .failier(let error):
                 self?.errorNotifier.onNext(error)
                 break
-                
+
             }
-        
-      
+
         }
     }
 }
